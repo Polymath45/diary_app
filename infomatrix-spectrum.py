@@ -1,3 +1,11 @@
+def get_response(messages):
+    response=openai.chat.completions.create(
+        model = 'gpt-4o',
+        messages = messages,
+        max_tokens=100
+        )
+    return response.choices[0].message.content
+    
 # Welcome to the Personal Diary
 print("Welcome to the Personal Diary, to create a new diary memory input your message!")
 
