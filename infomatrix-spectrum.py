@@ -1,3 +1,33 @@
+import openai
+openai.api_key=""
+
+def get_response(messages):
+    response=openai.chat.completions.create(
+        model = 'gpt-4o',
+        messages = messages,
+        max_tokens=100
+        )
+    return response.choices[0].message.content
+
+
+def AI_summarize(messages):
+    entries = load_entries()
+    ID=[]
+    Title=[]
+    Content =[]
+    for entry in entries:
+        ID.append(str(entry['id']))
+        Title.append(entry['title'])
+        Content.append(entry['content'])
+        id = "-".join(ID)
+        title = "-".join(Title)
+        content = "-".join(Content)
+    messages = [{"role":"system", "content": "You are a helpful chatbot. You will be given a diary notes and a request. Your task is to answer to the request based on the diary notes"},
+                {"role": "user", "content": "requests: " + messages},
+                {"role": "user", "content": "IDs: "+id},
+                {"role": "user", "content": "titles: "+title},
+                {"role": "user", "content": "note content:" +content}]
+    print(get_response(messages))
 # Welcome to the Personal Diary
 print("Welcome to the Personal Diary, to create a new diary memory input your message!")
 
